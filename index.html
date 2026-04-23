@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data & AI Learning Roadmap Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07080f;
+  --surface: #0d0e1a;
+  --card: #111220;
+  --card2: #161727;
+  --border: #1e2035;
+  --border2: #252640;
+  --c1: #4fffb0;
+  --c2: #ff6b6b;
+  --c3: #ffd166;
+  --c4: #4fc3f7;
+  --c5: #c084fc;
+  --text: #e2e4f0;
+  --muted: #555878;
+  --muted2: #8890b0;
+  --success: #4fffb0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Outfit',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:radial-gradient(ellipse 80% 50% at 50% -10%, rgba(79,255,176,0.04) 0%, transparent 60%),
+             radial-gradient(ellipse 60% 40% at 90% 90%, rgba(79,195,247,0.03) 0%, transparent 50%);
+  pointer-events:none;z-index:0;
+}
+
+/* ─── LAYOUT ─── */
+.app{display:flex;min-height:100vh;position:relative;z-index:1;}
+
+/* ─── SIDEBAR ─── */
+.sidebar{
+width:260px;flex-shrink:0;
+background:var(–surface);
+border-right:1px solid var(–border);
+position:sticky;top:0;height:100vh;
+overflow-y:auto;
+padding:28px 0 40px;
+display:flex;flex-direction:column;
+scrollbar-width:thin;scrollbar-color:var(–border2) transparent;
+}
+.sidebar-logo{
+padding:0 22px 24px;
+border-bottom:1px solid var(–border);
+margin-bottom:20px;
+}
+.sidebar-logo .logo-tag{
+font-family:‘JetBrains Mono’,monospace;
+font-size:9px;letter-spacing:3px;text-transform:uppercase;
+color:var(–c1);margin-bottom:8px;
+}
+.sidebar-logo h2{
+font-family:‘Syne’,sans-serif;
+font-size:17px;font-weight:800;
+line-height:1.2;
+}
+
+/* overall progress in sidebar */
+.sidebar-progress{
+padding:0 22px 20px;
+border-bottom:1px solid var(–border);
+margin-bottom:16px;
+}
+.sp-label{
+font-family:‘JetBrains Mono’,monospace;
+font-size:9px;letter-spacing:2px;text-transform:uppercase;
+color:var(–muted2);margin-bottom:8px;
+display:flex;justify-content:space-between;
+}
+.sp-bar-bg{
+height:5px;background:var(–border2);
+border-radius:10px;overflow:hidden;
+}
+.sp-bar-fill{
+height:100%;border-radius:10px;
+background:linear-gradient(90deg,var(–c1),var(–c4));
+transition:width 0.6s cubic-bezier(.4,0,.2,1);
+}
+.sp-count{
+margin-top:6px;
+font-size:11px;color:var(–muted2);
+font-family:‘JetBrains Mono’,monospace;
+}
+
+/* nav items */
+.nav-phase{padding:0 22px;margin-bottom:6px;}
+.nav-phase-label{
+font-family:‘JetBrains Mono’,monospace;
+font-size:9px;letter-spacing:2px;text-transform:uppercase;
+color:var(–muted);margin-bottom:4px;padding:4px 0;
+}
+.nav-week{
+display:flex;align-items:center;gap:8px;
+padding:8px 10px;border-radius:6px;
+cursor:pointer;
+text-decoration:none;color:var(–muted2);
+font-size:13px;font-weight:500;
+transition:all 0.15s;
+position:relative;
+}
+.nav-week:hover{background:var(–card);color:var(–text);}
+.nav-week.active{background:var(–card2);color:var(–text);}
+.nav-week .nw-dot{
+width:7px;height:7px;border-radius:50%;
+flex-shrink:0;
+background:var(–border2);
+transition:background 0.2s;
+}
+.nav-week.done .nw-dot{background:var(–c1);}
+.nav-week .nw-pct{
+margin-left:auto;
+font-family:‘JetBrains Mono’,monospace;
+font-size:10px;color:var(–muted);
+}
+
+/* ─── MAIN ─── */
+.main{flex:1;padding:40px 32px 80px;max-width:860px;}
+
+/* hero */
+.hero{
+margin-bottom:48px;
+animation:fadeUp 0.7s ease both;
+}
+.hero-eyebrow{
+font-family:‘JetBrains Mono’,monospace;
+font-size:10px;letter-spacing:3px;text-transform:uppercase;
+color:var(–c1);margin-bottom:14px;
+}
+.hero h1{
+font-family:‘Syne’,sans-serif;
+font-size:clamp(28px,4vw,48px);
+font-weight:800;line-height:1.1;
+letter-spacing:-1.5px;margin-bottom:12px;
+}
+.hero h1 em{
+font-style:normal;
+background:linear-gradient(135deg,var(–c1) 0%,var(–c4) 100%);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+background-clip:text;
+}
+.hero p{color:var(–muted2);font-size:15px;font-weight:300;line-height:1.7;max-width:580px;}
+
+/* stat pills */
+.stats-bar{
+display:flex;flex-wrap:wrap;gap:10px;
+margin-bottom:48px;
+animation:fadeUp 0.7s 0.1s ease both;
+}
+.stat-pill{
+background:var(–card);border:1px solid var(–border2);
+border-radius:100px;padding:8px 18px;
+display:flex;align-items:center;gap:8px;
+}
+.stat-pill .pn{
+font-family:‘Syne’,sans-serif;
+font-size:18px;font-weight:800;
+}
+.stat-pill .pl{font-size:12px;color:var(–muted2);font-weight:300;}
+.stat-pill:nth-child(1) .pn{color:var(–c1);}
+.stat-pill:nth-child(2) .pn{color:var(–c2);}
+.stat-pill:nth-child(3) .pn{color:var(–c3);}
+.stat-pill:nth-child(4) .pn{color:var(–c4);}
+
+/* ─── PHASE SECTION ─── */
+.phase-section{margin-bottom:56px;animation:fadeUp 0.6s ease both;}
+.phase-header{
+display:flex;align-items:center;gap:14px;
+margin-bottom:24px;
+padding-bottom:16px;
+border-bottom:1px solid var(–border);
+}
+.ph-icon{
+width:38px;height:38px;border-radius:8px;
+display:flex;align-items:center;justify-content:center;
+font-size:18px;flex-shrink:0;
+}
+.ph-title{
+font-family:‘Syne’,sans-serif;
+font-size:20px;font-weight:800;
+}
+.ph-sub{font-size:12px;color:var(–muted2);font-weight:300;margin-top:2px;}
+.ph-weeks-badge{
+margin-left:auto;
+font-family:‘JetBrains Mono’,monospace;
+font-size:10px;letter-spacing:1px;
+padding:4px 12px;border-radius:4px;
+white-space:nowrap;
+}
+
+/* ─── WEEK BLOCK ─── */
+.week-block{
+margin-bottom:32px;
+background:var(–card);
+border:1px solid var(–border);
+border-radius:12px;
+overflow:hidden;
+}
+.week-header{
+display:flex;align-items:center;gap:12px;
+padding:16px 20px;
+cursor:pointer;
+user-select:none;
+transition:background 0.15s;
+}
+.week-header:hover{background:var(–card2);}
+.wh-badge{
+font-family:‘JetBrains Mono’,monospace;
+font-size:10px;letter-spacing:1.5px;
+padding:3px 10px;border-radius:3px;
+white-space:nowrap;
+}
+.wh-title{
+font-family:‘Syne’,sans-serif;
+font-size:15px;font-weight:700;
+flex:1;
+}
+.wh-progress{
+display:flex;align-items:center;gap:8px;
+}
+.wh-prog-bar{
+width:80px;height:4px;
+background:var(–border2);border-radius:10px;overflow:hidden;
+}
+.wh-prog-fill{
+height:100%;border-radius:10px;
+transition:width 0.5s cubic-bezier(.4,0,.2,1);
+}
+.wh-pct{
+font-family:‘JetBrains Mono’,monospace;
+font-size:11px;color:var(–muted2);
+min-width:32px;text-align:right;
+}
+.wh-chevron{
+color:var(–muted);font-size:12px;
+transition:transform 0.25s;
+}
+.week-block.open .wh-chevron{transform:rotate(90deg);}
+
+/* week body */
+.week-body{
+display:none;
+padding:0 20px 20px;
+border-top:1px solid var(–border);
+}
+.week-block.open .week-body{display:block;}
+
+/* day section */
+.day-section{
+margin-top:20px;
+padding:18px;
+background:var(–surface);
+border:1px solid var(–border);
+border-radius:8px;
+}
+.day-label{
+font-family:‘JetBrains Mono’,monospace;
+font-size:10px;letter-spacing:2px;text-transform:uppercase;
+margin-bottom:14px;
+display:flex;align-items:center;gap:10px;
+}
+.day-label::after{
+content:’’;flex:1;height:1px;background:var(–border2);
+}
+
+/* task item */
+.task-item{
+display:flex;align-items:flex-start;gap:12px;
+padding:10px 12px;border-radius:6px;
+margin-bottom:4px;
+transition:background 0.12s;
+cursor:pointer;
+}
+.task-item:hover{background:rgba(255,255,255,0.03);}
+.task-item input[type=checkbox]{
+display:none;
+}
+.task-cb{
+width:20px;height:20px;flex-shrink:0;
+border-radius:5px;border:1.5px solid var(–border2);
+display:flex;align-items:center;justify-content:center;
+transition:all 0.15s;margin-top:1px;
+background:transparent;
+}
+.task-item.checked .task-cb{
+border-color:var(–c1);
+background:rgba(79,255,176,0.12);
+}
+.task-cb-check{
+font-size:11px;color:var(–c1);
+opacity:0;transform:scale(0.5);
+transition:all 0.15s;
+}
+.task-item.checked .task-cb-check{opacity:1;transform:scale(1);}
+.task-text{
+font-size:13.5px;font-weight:400;
+line-height:1.5;color:var(–muted2);
+transition:color 0.15s;
+}
+.task-item.checked .task-text{
+color:var(–muted);
+text-decoration:line-through;
+text-decoration-color:var(–border2);
+}
+.task-label{
+font-family:‘JetBrains Mono’,monospace;
+font-size:10px;
+padding:2px 7px;border-radius:3px;
+margin-left:auto;flex-shrink:0;
+align-self:center;
+}
+
+/* ─── SUMMARY BOX ─── */
+.summary-section{
+margin-top:24px;
+border:1px solid var(–border2);
+border-radius:8px;
+overflow:hidden;
+}
+.summary-header{
+padding:12px 16px;
+display:flex;align-items:center;gap:10px;
+font-family:‘JetBrains Mono’,monospace;
+font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+font-weight:500;
+}
+.summary-lock{font-size:13px;}
+.summary-required{
+margin-left:auto;
+font-size:9px;letter-spacing:1px;
+padding:2px 8px;border-radius:3px;
+background:rgba(255,107,107,0.1);
+color:var(–c2);border:1px solid rgba(255,107,107,0.2);
+}
+.summary-unlocked .summary-required{
+background:rgba(79,255,176,0.1);
+color:var(–c1);border-color:rgba(79,255,176,0.2);
+}
+.summary-body{padding:0 16px 16px;}
+.summary-locked-msg{
+display:flex;align-items:center;gap:10px;
+padding:14px;margin-bottom:0;
+background:rgba(255,107,107,0.05);
+border-radius:6px;
+font-size:13px;color:var(–muted2);
+font-weight:300;
+}
+.summary-locked-msg span{font-size:18px;}
+.summary-textarea-wrap{display:none;}
+.summary-unlocked .summary-locked-msg{display:none;}
+.summary-unlocked .summary-textarea-wrap{display:block;}
+.summary-prompt{
+font-size:12.5px;color:var(–muted2);
+margin-bottom:10px;line-height:1.6;
+font-weight:300;
+}
+.summary-prompt strong{color:var(–text);font-weight:500;}
+textarea.summary-input{
+width:100%;
+min-height:110px;
+background:var(–bg);
+border:1.5px solid var(–border2);
+border-radius:6px;
+color:var(–text);
+font-family:‘Outfit’,sans-serif;
+font-size:13.5px;
+font-weight:300;
+line-height:1.6;
+padding:12px 14px;
+resize:vertical;
+transition:border-color 0.2s;
+outline:none;
+}
+textarea.summary-input:focus{border-color:var(–c1);}
+textarea.summary-input::placeholder{color:var(–muted);}
+.summary-save-btn{
+margin-top:10px;
+padding:9px 20px;
+border-radius:6px;
+border:none;cursor:pointer;
+font-family:‘Syne’,sans-serif;
+font-size:13px;font-weight:700;
+letter-spacing:0.5px;
+transition:all 0.15s;
+}
+.summary-save-btn:disabled{opacity:0.3;cursor:not-allowed;}
+.summary-saved-note{
+display:none;
+font-family:‘JetBrains Mono’,monospace;
+font-size:10px;letter-spacing:1px;
+color:var(–c1);margin-top:6px;
+}
+.summary-saved-note.show{display:block;}
+
+/* ─── CERTS SECTION ─── */
+.certs-section{
+margin-bottom:56px;
+animation:fadeUp 0.6s 0.3s ease both;
+}
+.cert-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:12px;margin-top:24px;
+}
+.cert-card{
+background:var(–card);border:1px solid var(–border);
+border-radius:10px;padding:18px;
+transition:border-color 0.2s, transform 0.2s;
+}
+.cert-card:hover{transform:translateY(-2px);border-color:var(–border2);}
+.cc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;}
+.cc-name{
+font-family:‘Syne’,sans-serif;
+font-size:13px;font-weight:700;line-height:1.3;
+}
+.cc-badge{
+font-family:‘JetBrains Mono’,monospace;
+font-size:9px;padding:3px 7px;border-radius:3px;
+white-space:nowrap;flex-shrink:0;
+}
+.free{background:rgba(79,255,176,0.08);color:var(–c1);border:1px solid rgba(79,255,176,0.15);}
+.paid{background:rgba(255,209,102,0.08);color:var(–c3);border:1px solid rgba(255,209,102,0.15);}
+.cc-provider{font-family:‘JetBrains Mono’,monospace;font-size:10px;color:var(–muted2);margin-bottom:6px;}
+.cc-desc{font-size:12px;color:var(–muted2);font-weight:300;line-height:1.5;margin-bottom:10px;}
+.cc-timing{
+font-family:‘JetBrains Mono’,monospace;font-size:10px;
+padding:4px 10px;border-radius:4px;
+display:inline-block;
+}
+
+/* ─── SECTION DIVIDER ─── */
+.sec-divider{
+display:flex;align-items:center;gap:12px;
+margin-bottom:20px;
+font-family:‘JetBrains Mono’,monospace;
+font-size:9px;letter-spacing:3px;text-transform:uppercase;
+color:var(–muted);
+}
+.sec-divider::after{content:’’;flex:1;height:1px;background:var(–border);}
+
+/* ─── PROGRESS COMPLETE BANNER ─── */
+.complete-banner{
+display:none;
+background:linear-gradient(135deg,rgba(79,255,176,0.08),rgba(79,195,247,0.08));
+border:1px solid rgba(79,255,176,0.2);
+border-radius:10px;padding:24px;
+margin-bottom:48px;
+text-align:center;
+animation:popIn 0.4s cubic-bezier(.175,.885,.32,1.275) both;
+}
+.complete-banner.show{display:block;}
+.complete-banner h3{
+font-family:‘Syne’,sans-serif;font-size:20px;font-weight:800;
+margin-bottom:8px;
+background:linear-gradient(135deg,var(–c1),var(–c4));
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+background-clip:text;
+}
+.complete-banner p{font-size:13px;color:var(–muted2);font-weight:300;line-height:1.6;}
+
+/* ─── PHASE COLORS ─── */
+.phase-excel .ph-icon{background:rgba(79,195,247,0.1);}
+.phase-excel .ph-title{color:var(–c4);}
+.phase-excel .ph-weeks-badge{background:rgba(79,195,247,0.08);color:var(–c4);border:1px solid rgba(79,195,247,0.15);}
+.phase-excel .wh-badge{background:rgba(79,195,247,0.08);color:var(–c4);}
+.phase-excel .wh-prog-fill{background:linear-gradient(90deg,var(–c4),#74d7ff);}
+.phase-excel .day-label{color:var(–c4);}
+.phase-excel .summary-header{background:rgba(79,195,247,0.05);color:var(–c4);}
+.phase-excel .summary-save-btn{background:var(–c4);color:#07080f;}
+.phase-excel .cc-timing{background:rgba(79,195,247,0.08);color:var(–c4);}
+
+.phase-powerbi .ph-icon{background:rgba(255,107,107,0.1);}
+.phase-powerbi .ph-title{color:var(–c2);}
+.phase-powerbi .ph-weeks-badge{background:rgba(255,107,107,0.08);color:var(–c2);border:1px solid rgba(255,107,107,0.15);}
+.phase-powerbi .wh-badge{background:rgba(255,107,107,0.08);color:var(–c2);}
+.phase-powerbi .wh-prog-fill{background:linear-gradient(90deg,var(–c2),#ff9a8b);}
+.phase-powerbi .day-label{color:var(–c2);}
+.phase-powerbi .summary-header{background:rgba(255,107,107,0.05);color:var(–c2);}
+.phase-powerbi .summary-save-btn{background:var(–c2);color:#07080f;}
+.phase-powerbi .cc-timing{background:rgba(255,107,107,0.08);color:var(–c2);}
+
+.phase-ai .ph-icon{background:rgba(192,132,252,0.1);}
+.phase-ai .ph-title{color:var(–c5);}
+.phase-ai .ph-weeks-badge{background:rgba(192,132,252,0.08);color:var(–c5);border:1px solid rgba(192,132,252,0.15);}
+.phase-ai .wh-badge{background:rgba(192,132,252,0.08);color:var(–c5);}
+.phase-ai .wh-prog-fill{background:linear-gradient(90deg,var(–c5),#e0abff);}
+.phase-ai .day-label{color:var(–c5);}
+.phase-ai .summary-header{background:rgba(192,132,252,0.05);color:var(–c5);}
+.phase-ai .summary-save-btn{background:var(–c5);color:#07080f;}
+.phase-ai .cc-timing{background:rgba(192,132,252,0.08);color:var(–c5);}
+
+.phase-final .ph-icon{background:rgba(255,209,102,0.1);}
+.phase-final .ph-title{color:var(–c3);}
+.phase-final .ph-weeks-badge{background:rgba(255,209,102,0.08);color:var(–c3);border:1px solid rgba(255,209,102,0.15);}
+.phase-final .wh-badge{background:rgba(255,209,102,0.08);color:var(–c3);}
+.phase-final .wh-prog-fill{background:linear-gradient(90deg,var(–c3),#ffe680);}
+.phase-final .day-label{color:var(–c3);}
+.phase-final .summary-header{background:rgba(255,209,102,0.05);color:var(–c3);}
+.phase-final .summary-save-btn{background:var(–c3);color:#07080f;}
+.phase-final .cc-timing{background:rgba(255,209,102,0.08);color:var(–c3);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes popIn{from{opacity:0;transform:scale(0.95);}to{opacity:1;transform:scale(1);}}
+
+/* mobile */
+@media(max-width:768px){
+.sidebar{display:none;}
+.main{padding:24px 16px 60px;}
+}
+</style>
+
+</head>
+<body>
+<div class="app">
+
+<!-- ═══ SIDEBAR ═══ -->
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-tag">⚡ 8-Week Plan</div>
+    <h2>Data & AI<br>Roadmap</h2>
+  </div>
+  <div class="sidebar-progress">
+    <div class="sp-label">
+      <span>Overall Progress</span>
+      <span id="overall-pct">0%</span>
+    </div>
+    <div class="sp-bar-bg"><div class="sp-bar-fill" id="overall-bar" style="width:0%"></div></div>
+    <div class="sp-count" id="overall-count">0 / 0 tasks</div>
+  </div>
+  <div id="sidebar-nav"></div>
+</aside>
+
+<!-- ═══ MAIN ═══ -->
+
+<main class="main">
+
+  <div class="hero">
+    <div class="hero-eyebrow">// Your Personal Learning OS</div>
+    <h1>Data & <em>AI Skills</em><br>Roadmap Tracker</h1>
+    <p>Check off daily tasks, write your summaries (required), and track your journey to your first data job. Your progress saves automatically.</p>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-pill"><div class="pn">8</div><div class="pl">Weeks</div></div>
+    <div class="stat-pill"><div class="pn">3</div><div class="pl">Skill Tracks</div></div>
+    <div class="stat-pill"><div class="pn">6</div><div class="pl">Certs</div></div>
+    <div class="stat-pill"><div class="pn">2–3h</div><div class="pl">Daily</div></div>
+  </div>
+
+  <div class="complete-banner" id="complete-banner">
+    <h3>🎉 Roadmap Complete — You're Job-Ready!</h3>
+    <p>You've completed all tasks and written every summary. Time to send those applications. You've built real skills, real projects, and real proof.</p>
+  </div>
+
+  <div id="phases-container"></div>
+
+  <!-- CERTIFICATIONS -->
+
+  <div class="certs-section">
+    <div class="sec-divider">Certifications to Earn</div>
+    <div class="cert-grid">
+      <div class="cert-card phase-excel">
+        <div class="cc-top"><div class="cc-name">MOS Excel Expert</div><div class="cc-badge paid">~$165</div></div>
+        <div class="cc-provider">Microsoft / Certiport</div>
+        <div class="cc-desc">Industry gold standard. Covers advanced formulas, Pivot Tables, macros. Recognised globally by employers.</div>
+        <div class="cc-timing">⏱ Sit in Week 3–4</div>
+      </div>
+      <div class="cert-card phase-powerbi">
+        <div class="cc-top"><div class="cc-name">PL-300: Power BI Analyst</div><div class="cc-badge paid">~$165</div></div>
+        <div class="cc-provider">Microsoft Learn</div>
+        <div class="cc-desc">Official Power BI cert. Highly valued in job postings. Free study materials on Microsoft Learn.</div>
+        <div class="cc-timing">⏱ Sit in Week 5–6</div>
+      </div>
+      <div class="cert-card phase-excel">
+        <div class="cc-top"><div class="cc-name">Google Data Analytics</div><div class="cc-badge paid">~$49/mo</div></div>
+        <div class="cc-provider">Google / Coursera</div>
+        <div class="cc-desc">Widely recognised. Covers data cleaning, visualisation, Sheets, SQL basics. Great for career changers.</div>
+        <div class="cc-timing">⏱ Start Week 1 → Finish Week 6</div>
+      </div>
+      <div class="cert-card phase-ai">
+        <div class="cc-top"><div class="cc-name">Prompt Engineering Cert</div><div class="cc-badge free">FREE</div></div>
+        <div class="cc-provider">Vanderbilt / Coursera</div>
+        <div class="cc-desc">Free audit. Covers prompt design, real use cases, AI ethics. ~6–8 hours total. Adds AI credibility.</div>
+        <div class="cc-timing">⏱ Complete in Week 5</div>
+      </div>
+      <div class="cert-card phase-ai">
+        <div class="cc-top"><div class="cc-name">AI for Everyone</div><div class="cc-badge free">FREE</div></div>
+        <div class="cc-provider">Andrew Ng / DeepLearning.AI</div>
+        <div class="cc-desc">Non-technical but high-value for analysts & ops roles. Teaches AI strategy and business impact. ~6 hours.</div>
+        <div class="cc-timing">⏱ Complete in Week 5–6</div>
+      </div>
+      <div class="cert-card phase-excel">
+        <div class="cc-top"><div class="cc-name">Excel Skills for Business</div><div class="cc-badge free">FREE Audit</div></div>
+        <div class="cc-provider">Macquarie Univ / Coursera</div>
+        <div class="cc-desc">4-course series, beginner to advanced Excel. Free to audit. Excellent structured coverage alongside Weeks 1–2.</div>
+        <div class="cc-timing">⏱ Run parallel Weeks 1–2</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+// DATA MODEL
+// ══════════════════════════════════════════════════════
+const roadmap = [
+  {
+    id:'phase-excel', label:'PHASE 1', name:'Advanced Excel',
+    sub:'Data Cleaning · VLOOKUP · Pivot Tables · Dashboards',
+    icon:'📊', cls:'phase-excel',
+    weeks:[
+      {
+        id:'w1', label:'WEEK 01', title:'Data Cleaning & Core Functions',
+        days:[
+          { id:'d1', label:'MON', color:'var(--c4)', tasks:[
+            {id:'t1', text:'Install/open Excel — explore the ribbon, Name Box, formula bar'},
+            {id:'t2', text:'Learn Remove Duplicates, Flash Fill, Text to Columns'},
+            {id:'t3', text:'Practice: download a messy CSV from Kaggle and clean it'},
+          ]},
+          { id:'d2', label:'TUE', color:'var(--c4)', tasks:[
+            {id:'t4', text:'Master VLOOKUP — syntax, exact vs approximate match, common errors'},
+            {id:'t5', text:'Learn HLOOKUP and when to use it'},
+            {id:'t6', text:'Practice: Build a lookup to match products to prices'},
+          ]},
+          { id:'d3', label:'WED', color:'var(--c4)', tasks:[
+            {id:'t7', text:'Learn INDEX + MATCH — why it\'s better than VLOOKUP'},
+            {id:'t8', text:'Practice INDEX-MATCH on a two-column lookup problem'},
+            {id:'t9', text:'IFERROR: wrap lookups to handle missing values cleanly'},
+          ]},
+          { id:'d4', label:'THU', color:'var(--c4)', tasks:[
+            {id:'t10', text:'IF, nested IF, IFS function — logic & conditions'},
+            {id:'t11', text:'COUNTIF, SUMIF, AVERAGEIF — conditional aggregation'},
+            {id:'t12', text:'Practice: count how many sales > $500 in a dataset'},
+          ]},
+          { id:'d5', label:'FRI', color:'var(--c4)', tasks:[
+            {id:'t13', text:'Text functions: TRIM, CLEAN, UPPER, LOWER, PROPER'},
+            {id:'t14', text:'LEFT, RIGHT, MID, LEN, FIND, CONCAT / TEXTJOIN'},
+            {id:'t15', text:'Practice: split full names into first & last name columns'},
+          ]},
+          { id:'d6', label:'SAT — MINI PROJECT', color:'var(--c4)', tasks:[
+            {id:'t16', text:'Download a raw HR dataset (Kaggle) with errors & blanks'},
+            {id:'t17', text:'Apply all cleaning techniques from this week'},
+            {id:'t18', text:'Add 3 formula columns: lookup, SUMIF, and text clean'},
+          ]},
+        ],
+        summaryPrompt:'Reflect on Week 1: What did data cleaning feel like at first? Which function was hardest — and how did you get it? Describe a problem you solved with VLOOKUP or INDEX-MATCH.',
+      },
+      {
+        id:'w2', label:'WEEK 02', title:'Pivot Tables & Reporting Dashboards',
+        days:[
+          { id:'d7', label:'MON', color:'var(--c4)', tasks:[
+            {id:'t19', text:'What is a Pivot Table? Insert one from a sales dataset'},
+            {id:'t20', text:'Rows, Columns, Values, Filters — drag and explore'},
+            {id:'t21', text:'Group dates by Month / Quarter in Pivot Table'},
+          ]},
+          { id:'d8', label:'TUE', color:'var(--c4)', tasks:[
+            {id:'t22', text:'Calculated fields in Pivot Tables (e.g. Profit Margin)'},
+            {id:'t23', text:'Slicers and Timelines — interactive filters'},
+            {id:'t24', text:'Practice: Build a revenue-by-region Pivot Table with a slicer'},
+          ]},
+          { id:'d9', label:'WED', color:'var(--c4)', tasks:[
+            {id:'t25', text:'Pivot Charts: bar, line, combo — link to your Pivot Table'},
+            {id:'t26', text:'Conditional formatting: colour scales, data bars, icon sets'},
+            {id:'t27', text:'Named Ranges for cleaner formula references'},
+          ]},
+          { id:'d10', label:'THU', color:'var(--c4)', tasks:[
+            {id:'t28', text:'Dashboard layout: separate Data, Calc, and Dashboard sheets'},
+            {id:'t29', text:'Freeze panes, hide gridlines, use shapes for KPI cards'},
+            {id:'t30', text:'Camera Tool: link chart to a fixed position on dashboard'},
+          ]},
+          { id:'d11', label:'FRI', color:'var(--c4)', tasks:[
+            {id:'t31', text:'GETPIVOTDATA function — pull specific values to KPI cards'},
+            {id:'t32', text:'Protect sheet, hide formula bar for presentation mode'},
+            {id:'t33', text:'Export dashboard as PDF for portfolio'},
+          ]},
+          { id:'d12', label:'SAT — PROJECT DAY', color:'var(--c4)', tasks:[
+            {id:'t34', text:'Build a complete 1-page Sales Dashboard: 3 charts + 3 KPI cards'},
+            {id:'t35', text:'Add a slicer for Region and a timeline for Date'},
+            {id:'t36', text:'Screenshot and save to your portfolio folder'},
+          ]},
+        ],
+        summaryPrompt:'Week 2 reflection: What surprised you most about Pivot Tables? Describe your dashboard — what data did you use, what story did it tell? What would you improve?',
+      },
+    ]
+  },
+  {
+    id:'phase-powerbi', label:'PHASE 2', name:'Power BI',
+    sub:'Data Modelling · DAX · Dashboards · Publishing',
+    icon:'⚡', cls:'phase-powerbi',
+    weeks:[
+      {
+        id:'w3', label:'WEEK 03', title:'Power BI Core & Data Modelling',
+        days:[
+          { id:'d13', label:'MON', color:'var(--c2)', tasks:[
+            {id:'t37', text:'Download Power BI Desktop (free) — explore the 3 views: Report, Data, Model'},
+            {id:'t38', text:'Import a CSV and an Excel file into Power BI'},
+            {id:'t39', text:'Explore the Fields pane and data types'},
+          ]},
+          { id:'d14', label:'TUE', color:'var(--c2)', tasks:[
+            {id:'t40', text:'Power Query Editor: rename columns, change types, remove nulls'},
+            {id:'t41', text:'Split columns, merge queries, add conditional columns'},
+            {id:'t42', text:'Practice: Clean a dataset fully in Power Query (no touching raw data)'},
+          ]},
+          { id:'d15', label:'WED', color:'var(--c2)', tasks:[
+            {id:'t43', text:'Data modelling: star schema — fact table vs dimension tables'},
+            {id:'t44', text:'Create relationships between tables (1-to-many)'},
+            {id:'t45', text:'Understand cardinality and cross-filter direction'},
+          ]},
+          { id:'d16', label:'THU', color:'var(--c2)', tasks:[
+            {id:'t46', text:'DAX basics: SUM, COUNT, AVERAGE, DISTINCTCOUNT'},
+            {id:'t47', text:'Create calculated columns vs measures — key difference'},
+            {id:'t48', text:'Practice: Write 5 measures (Total Sales, Avg Order, etc.)'},
+          ]},
+          { id:'d17', label:'FRI', color:'var(--c2)', tasks:[
+            {id:'t49', text:'CALCULATE function — the most important DAX function'},
+            {id:'t50', text:'FILTER, ALL, ALLEXCEPT — modify filter context'},
+            {id:'t51', text:'Time Intelligence: TOTALYTD, SAMEPERIODLASTYEAR'},
+          ]},
+          { id:'d18', label:'SAT — BUILD DAY', color:'var(--c2)', tasks:[
+            {id:'t52', text:'Build a data model with 3 tables: Sales, Products, Customers'},
+            {id:'t53', text:'Write 6 DAX measures (incl. YoY growth, % of total)'},
+            {id:'t54', text:'Review your model in Model View — fix any issues'},
+          ]},
+        ],
+        summaryPrompt:'Week 3 reflection: How is Power BI different from Excel for data work? What was confusing about DAX at first? Explain CALCULATE in your own words.',
+      },
+      {
+        id:'w4', label:'WEEK 04', title:'Dashboards, Visuals & Publishing',
+        days:[
+          { id:'d19', label:'MON', color:'var(--c2)', tasks:[
+            {id:'t55', text:'Visuals: bar, line, card, table, matrix, donut, map'},
+            {id:'t56', text:'Format visuals: colours, fonts, titles, borders, backgrounds'},
+            {id:'t57', text:'Cross-highlighting and cross-filtering between visuals'},
+          ]},
+          { id:'d20', label:'TUE', color:'var(--c2)', tasks:[
+            {id:'t58', text:'Slicers: dropdown, tile, date range — style and sync'},
+            {id:'t59', text:'Drill-through pages: right-click detail view'},
+            {id:'t60', text:'Tooltips: custom hover detail pages'},
+          ]},
+          { id:'d21', label:'WED', color:'var(--c2)', tasks:[
+            {id:'t61', text:'Bookmarks + buttons: navigation between pages'},
+            {id:'t62', text:'Report page layout: use alignment guides, consistent spacing'},
+            {id:'t63', text:'Design system: pick 3 brand colours and stick to them'},
+          ]},
+          { id:'d22', label:'THU', color:'var(--c2)', tasks:[
+            {id:'t64', text:'Publish to Power BI Service (free account)'},
+            {id:'t65', text:'Share dashboard with a link — set permissions'},
+            {id:'t66', text:'Schedule data refresh via Power BI Service'},
+          ]},
+          { id:'d23', label:'FRI', color:'var(--c2)', tasks:[
+            {id:'t67', text:'Row-Level Security (RLS): restrict data by user role'},
+            {id:'t68', text:'Q&A visual: natural language queries on your data'},
+            {id:'t69', text:'Export to PDF and PowerPoint for stakeholder sharing'},
+          ]},
+          { id:'d24', label:'SAT — CAPSTONE PROJECT', color:'var(--c2)', tasks:[
+            {id:'t70', text:'Build a 3-page Power BI report: Overview, Details, Trends'},
+            {id:'t71', text:'Publish live to Power BI Service — get a shareable URL'},
+            {id:'t72', text:'Add the live link to your LinkedIn profile & portfolio'},
+          ]},
+        ],
+        summaryPrompt:'Week 4 reflection: Describe your completed Power BI dashboard. What business question does it answer? What was the hardest visual to build, and how did you solve it?',
+      },
+    ]
+  },
+  {
+    id:'phase-ai', label:'PHASE 3', name:'AI & Automation',
+    sub:'ChatGPT · Prompt Engineering · Workflow Automation',
+    icon:'🤖', cls:'phase-ai',
+    weeks:[
+      {
+        id:'w5', label:'WEEK 05', title:'Prompt Engineering Mastery',
+        days:[
+          { id:'d25', label:'MON', color:'var(--c5)', tasks:[
+            {id:'t73', text:'What is prompt engineering? Zero-shot vs few-shot prompting'},
+            {id:'t74', text:'Role prompting: "Act as a senior data analyst…"'},
+            {id:'t75', text:'Practice: use ChatGPT to explain a Power BI DAX formula'},
+          ]},
+          { id:'d26', label:'TUE', color:'var(--c5)', tasks:[
+            {id:'t76', text:'Chain-of-thought prompting: "Think step by step…"'},
+            {id:'t77', text:'Output formatting: ask for tables, bullet points, JSON'},
+            {id:'t78', text:'Practice: get ChatGPT to clean and analyse a text dataset'},
+          ]},
+          { id:'d27', label:'WED', color:'var(--c5)', tasks:[
+            {id:'t79', text:'Use ChatGPT to write Excel formulas from plain English'},
+            {id:'t80', text:'Use ChatGPT to explain & debug Power BI DAX errors'},
+            {id:'t81', text:'Use Claude/ChatGPT to write a data analysis report in minutes'},
+          ]},
+          { id:'d28', label:'THU', color:'var(--c5)', tasks:[
+            {id:'t82', text:'AI tools comparison: ChatGPT vs Claude vs Gemini vs Copilot'},
+            {id:'t83', text:'Microsoft Copilot in Excel: use natural language on data'},
+            {id:'t84', text:'Copilot in Power BI: generate visuals with prompts'},
+          ]},
+          { id:'d29', label:'FRI', color:'var(--c5)', tasks:[
+            {id:'t85', text:'Build your personal Prompt Library (10+ reusable prompts)'},
+            {id:'t86', text:'Target your prompts: write prompts for YOUR job role'},
+            {id:'t87', text:'Complete Vanderbilt Prompt Engineering course (Coursera free)'},
+          ]},
+          { id:'d30', label:'SAT — LIBRARY BUILD', color:'var(--c5)', tasks:[
+            {id:'t88', text:'Finish and document your Prompt Library in a Google Doc'},
+            {id:'t89', text:'Complete "AI for Everyone" by Andrew Ng (6 hrs, free)'},
+            {id:'t90', text:'Share your prompt library on LinkedIn for visibility'},
+          ]},
+        ],
+        summaryPrompt:'Week 5 reflection: Which prompt technique surprised you most? Give an example of a prompt you wrote that saved you significant time. How will you use AI in your daily data work?',
+      },
+      {
+        id:'w6', label:'WEEK 06', title:'AI Workflow Automation',
+        days:[
+          { id:'d31', label:'MON', color:'var(--c5)', tasks:[
+            {id:'t91', text:'What is workflow automation? Manual → automated process map'},
+            {id:'t92', text:'Sign up for Zapier (free) — explore triggers and actions'},
+            {id:'t93', text:'Build Zap 1: New Google Form response → save to Google Sheets'},
+          ]},
+          { id:'d32', label:'TUE', color:'var(--c5)', tasks:[
+            {id:'t94', text:'Build Zap 2: New row in Sheets → send Slack/email notification'},
+            {id:'t95', text:'Explore Make.com (formerly Integromat) as alternative'},
+            {id:'t96', text:'Understand webhooks, API basics for no-code tools'},
+          ]},
+          { id:'d33', label:'WED', color:'var(--c5)', tasks:[
+            {id:'t97', text:'Use ChatGPT to generate Excel VBA macro code'},
+            {id:'t98', text:'Run the macro: automate a repetitive Excel formatting task'},
+            {id:'t99', text:'Use AI to generate a Python script for basic CSV processing'},
+          ]},
+          { id:'d34', label:'THU', color:'var(--c5)', tasks:[
+            {id:'t100', text:'AI + Power BI: Copilot-generated reports and summaries'},
+            {id:'t101', text:'Automated reporting: Power Automate → send Power BI report by email'},
+            {id:'t102', text:'Test the automation end-to-end with real data'},
+          ]},
+          { id:'d35', label:'FRI', color:'var(--c5)', tasks:[
+            {id:'t103', text:'Document one end-to-end automation workflow (before/after)'},
+            {id:'t104', text:'Write a 1-page case study: What problem did it solve? Time saved?'},
+            {id:'t105', text:'Add the case study to your portfolio Google Doc / GitHub'},
+          ]},
+          { id:'d36', label:'SAT — SHOWCASE', color:'var(--c5)', tasks:[
+            {id:'t106', text:'Record a 2-min Loom video showing your automation in action'},
+            {id:'t107', text:'Post on LinkedIn: "I automated X using AI + Zapier — here\'s how"'},
+            {id:'t108', text:'Engage with 5 data professionals\' posts to build network'},
+          ]},
+        ],
+        summaryPrompt:'Week 6 reflection: Describe the automation you built. What was the manual process before, and what does it look like now? How would you pitch this to an employer as a skill?',
+      },
+    ]
+  },
+  {
+    id:'phase-final', label:'PHASE 4', name:'Portfolio & Job Prep',
+    sub:'Projects · Certifications · Resume · Applications',
+    icon:'🚀', cls:'phase-final',
+    weeks:[
+      {
+        id:'w7', label:'WEEK 07', title:'Portfolio Sprint',
+        days:[
+          { id:'d37', label:'MON', color:'var(--c3)', tasks:[
+            {id:'t109', text:'Plan 3 portfolio projects: Excel, Power BI, AI Automation'},
+            {id:'t110', text:'Choose datasets relevant to your target industry (finance, HR, retail)'},
+            {id:'t111', text:'Set up GitHub account — create a "data-portfolio" repository'},
+          ]},
+          { id:'d38', label:'TUE', color:'var(--c3)', tasks:[
+            {id:'t112', text:'Excel project: Clean + analyse a Kaggle dataset (1,000+ rows)'},
+            {id:'t113', text:'Add 5 formulas, a Pivot Table, and a 1-page dashboard'},
+            {id:'t114', text:'Write a README: What was the problem? What did you find?'},
+          ]},
+          { id:'d39', label:'WED', color:'var(--c3)', tasks:[
+            {id:'t115', text:'Power BI project: build from raw data → published dashboard'},
+            {id:'t116', text:'3 pages: Summary, Trends, Detail. Minimum 8 visuals, 6 measures'},
+            {id:'t117', text:'Publish to Power BI Service — copy the shareable link'},
+          ]},
+          { id:'d40', label:'THU', color:'var(--c3)', tasks:[
+            {id:'t118', text:'AI project: document your automation workflow as a case study'},
+            {id:'t119', text:'Include: problem, tools used, prompt or workflow, outcome, screenshot'},
+            {id:'t120', text:'Upload all 3 projects to GitHub with clean READMEs'},
+          ]},
+          { id:'d41', label:'FRI', color:'var(--c3)', tasks:[
+            {id:'t121', text:'LinkedIn: update Featured section with all 3 projects'},
+            {id:'t122', text:'Add Power BI dashboard live link, GitHub link, Loom video'},
+            {id:'t123', text:'Write 3 LinkedIn posts (schedule 1 per week): share your projects'},
+          ]},
+          { id:'d42', label:'SAT — POLISH', color:'var(--c3)', tasks:[
+            {id:'t124', text:'Peer review: ask someone to review your portfolio, note feedback'},
+            {id:'t125', text:'Polish: fix any formatting, spelling, or chart issues'},
+            {id:'t126', text:'Write your LinkedIn "About" section: skills + what you\'re seeking'},
+          ]},
+        ],
+        summaryPrompt:'Week 7 reflection: Describe all 3 portfolio projects. Which one are you most proud of and why? What feedback did you get, and what did you improve?',
+      },
+      {
+        id:'w8', label:'WEEK 08', title:'Exams, Resume & Apply',
+        days:[
+          { id:'d43', label:'MON', color:'var(--c3)', tasks:[
+            {id:'t127', text:'Resume: use a clean 1-page ATS-friendly template'},
+            {id:'t128', text:'Include keywords: VLOOKUP, Pivot Tables, Power BI, DAX, Prompt Engineering'},
+            {id:'t129', text:'Quantify: "Built dashboard tracking $2M in sales across 4 regions"'},
+          ]},
+          { id:'d44', label:'TUE', color:'var(--c3)', tasks:[
+            {id:'t130', text:'Sit MOS Excel Expert exam (if not done yet)'},
+            {id:'t131', text:'Add certification badge to LinkedIn immediately after passing'},
+            {id:'t132', text:'Update resume with the new cert'},
+          ]},
+          { id:'d45', label:'WED', color:'var(--c3)', tasks:[
+            {id:'t133', text:'Sit Microsoft PL-300 Power BI exam (if not done yet)'},
+            {id:'t134', text:'Prep for technical interview questions: VLOOKUP vs INDEX-MATCH, CALCULATE, dashboard design'},
+            {id:'t135', text:'Practise explaining your portfolio projects out loud (2 min each)'},
+          ]},
+          { id:'d46', label:'THU', color:'var(--c3)', tasks:[
+            {id:'t136', text:'Research 10 target companies — save job postings that match your skills'},
+            {id:'t137', text:'Tailor your resume for each job using keywords from the posting'},
+            {id:'t138', text:'Apply to first 5 roles: Data Analyst, BI Analyst, Reporting Analyst'},
+          ]},
+          { id:'d47', label:'FRI', color:'var(--c3)', tasks:[
+            {id:'t139', text:'Reach out to 5 people on LinkedIn: data analysts, hiring managers'},
+            {id:'t140', text:'Message: "I\'m a data analyst transitioning in — I\'d love 15 min of your time"'},
+            {id:'t141', text:'Apply to 5 more roles — don\'t wait for responses before continuing'},
+          ]},
+          { id:'d48', label:'SAT — LAUNCH DAY', color:'var(--c3)', tasks:[
+            {id:'t142', text:'Final review: Portfolio ✓ Resume ✓ LinkedIn ✓ Certs ✓'},
+            {id:'t143', text:'Set a weekly target: apply to 10 roles every week until hired'},
+            {id:'t144', text:'Celebrate. 8 weeks of work. You have real, provable skills.'},
+          ]},
+        ],
+        summaryPrompt:'Final Week 8 reflection: You finished. What skills have you built over 8 weeks? What are you most confident about? What\'s your job search strategy going forward?',
+      },
+    ]
+  },
+];
+
+// ══════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════
+function loadState(){
+  try{ return JSON.parse(localStorage.getItem('roadmap_state')||'{}'); }catch(e){return{};}
+}
+function saveState(state){
+  localStorage.setItem('roadmap_state', JSON.stringify(state));
+}
+
+let state = loadState();
+
+// Ensure defaults
+roadmap.forEach(ph=>ph.weeks.forEach(wk=>{
+  wk.days.forEach(d=>d.tasks.forEach(t=>{
+    if(state[t.id]===undefined) state[t.id]=false;
+  }));
+  if(state['summary_'+wk.id]===undefined) state['summary_'+wk.id]='';
+}));
+
+// ══════════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════════
+function allTasksInWeekDone(wk){
+  return wk.days.every(d=>d.tasks.every(t=>state[t.id]===true));
+}
+function weekProgress(wk){
+  const all=wk.days.flatMap(d=>d.tasks);
+  const done=all.filter(t=>state[t.id]).length;
+  return{done,total:all.length,pct:all.length?Math.round(done/all.length*100):0};
+}
+function totalProgress(){
+  const all=roadmap.flatMap(ph=>ph.weeks.flatMap(wk=>wk.days.flatMap(d=>d.tasks)));
+  const done=all.filter(t=>state[t.id]).length;
+  const summaries=roadmap.flatMap(ph=>ph.weeks.map(wk=>state['summary_'+wk.id]||''));
+  const sdone=summaries.filter(s=>s.trim().length>20).length;
+  return{tasks:{done,total:all.length},summaries:{done:sdone,total:summaries.length}};
+}
+
+function renderAll(){
+  renderPhases();
+  renderSidebar();
+  updateOverallProgress();
+}
+
+function renderPhases(){
+  const container=document.getElementById('phases-container');
+  container.innerHTML='';
+  roadmap.forEach((ph,pi)=>{
+    const sec=document.createElement('div');
+    sec.className=`phase-section ${ph.cls}`;
+    sec.id=ph.id;
+    sec.style.animationDelay=`${0.1+pi*0.1}s`;
+
+    // phase header
+    sec.innerHTML=`
+      <div class="phase-header">
+        <div class="ph-icon">${ph.icon}</div>
+        <div>
+          <div class="ph-title">${ph.name}</div>
+          <div class="ph-sub">${ph.sub}</div>
+        </div>
+        <div class="ph-weeks-badge">${ph.label} · Weeks ${ph.weeks[0].id.replace('w','')}–${ph.weeks[ph.weeks.length-1].id.replace('w','')}</div>
+      </div>
+    `;
+
+    ph.weeks.forEach(wk=>{
+      sec.appendChild(renderWeek(wk, ph.cls));
+    });
+    container.appendChild(sec);
+  });
+}
+
+function renderWeek(wk, phCls){
+  const {done,total,pct}=weekProgress(wk);
+  const isOpen=state['open_'+wk.id]!==false; // default open first 2
+  const allDone=allTasksInWeekDone(wk);
+  const hasSummary=(state['summary_'+wk.id]||'').trim().length>20;
+
+  const div=document.createElement('div');
+  div.className=`week-block ${phCls} ${isOpen?'open':''}`;
+  div.id='wk-'+wk.id;
+
+  div.innerHTML=`
+    <div class="week-header" onclick="toggleWeek('${wk.id}')">
+      <div class="wh-badge">${wk.label}</div>
+      <div class="wh-title">${wk.title}</div>
+      <div class="wh-progress">
+        <div class="wh-prog-bar"><div class="wh-prog-fill" style="width:${pct}%"></div></div>
+        <div class="wh-pct">${pct}%</div>
+      </div>
+      <div class="wh-chevron">▶</div>
+    </div>
+    <div class="week-body">
+      ${wk.days.map(d=>renderDay(d, phCls)).join('')}
+      ${renderSummary(wk, phCls, allDone, hasSummary)}
+    </div>
+  `;
+  return div;
+}
+
+function renderDay(d, phCls){
+  return `
+    <div class="day-section">
+      <div class="day-label" style="color:${d.color}">${d.label}</div>
+      ${d.tasks.map(t=>renderTask(t, phCls)).join('')}
+    </div>
+  `;
+}
+
+function renderTask(t, phCls){
+  const checked=state[t.id];
+  return `
+    <div class="task-item ${checked?'checked':''}" onclick="toggleTask('${t.id}')">
+      <div class="task-cb"><span class="task-cb-check">✓</span></div>
+      <div class="task-text">${t.text}</div>
+    </div>
+  `;
+}
+
+function renderSummary(wk, phCls, allDone, hasSummary){
+  const val=state['summary_'+wk.id]||'';
+  const unlocked=allDone;
+  return `
+    <div class="summary-section ${unlocked?'summary-unlocked':''}" id="sum-${wk.id}">
+      <div class="summary-header">
+        <span class="summary-lock">${unlocked?'📝':'🔒'}</span>
+        <span>WEEK SUMMARY</span>
+        <span class="summary-required">${hasSummary?'✓ SAVED':'REQUIRED'}</span>
+      </div>
+      <div class="summary-body">
+        <div class="summary-locked-msg">
+          <span>🔒</span>
+          <span>Complete all ${wk.days.reduce((a,d)=>a+d.tasks.length,0)} tasks above to unlock your weekly summary. The summary is <strong>mandatory</strong> — it consolidates your learning.</span>
+        </div>
+        <div class="summary-textarea-wrap">
+          <div class="summary-prompt">
+            <strong>Reflection prompt:</strong> ${wk.summaryPrompt}
+          </div>
+          <textarea class="summary-input"
+            id="textarea-${wk.id}"
+            placeholder="Write your summary here (minimum 20 characters to save)…"
+            oninput="onSummaryInput('${wk.id}')"
+          >${val}</textarea>
+
+```
+      <button class="summary-save-btn"
+        id="savebtn-${wk.id}"
+        onclick="saveSummary('${wk.id}')"
+        ${val.trim().length>20?'':'disabled'}
+      >Save Summary</button>
+      <div class="summary-saved-note ${hasSummary?'show':''}" id="saved-note-${wk.id}">✓ Summary saved</div>
+    </div>
+  </div>
+</div>
+```
+
+`;
+}
+
+// ══════════════════════════════════════════════════════
+// INTERACTIONS
+// ══════════════════════════════════════════════════════
+function toggleTask(id){
+state[id]=!state[id];
+saveState(state);
+// Find which week this task belongs to
+const wk=roadmap.flatMap(ph=>ph.weeks).find(w=>w.days.some(d=>d.tasks.some(t=>t.id===id)));
+if(!wk) return;
+refreshWeek(wk);
+updateOverallProgress();
+renderSidebarNav();
+}
+
+function toggleWeek(wkId){
+const cur=state[‘open_’+wkId];
+state[‘open_’+wkId]= cur===false ? true : false;
+saveState(state);
+const el=document.getElementById(‘wk-’+wkId);
+if(!el) return;
+if(state[‘open_’+wkId]===false) el.classList.remove(‘open’);
+else el.classList.add(‘open’);
+}
+
+function onSummaryInput(wkId){
+const ta=document.getElementById(‘textarea-’+wkId);
+const btn=document.getElementById(‘savebtn-’+wkId);
+if(ta && btn) btn.disabled=ta.value.trim().length<=20;
+}
+
+function saveSummary(wkId){
+const ta=document.getElementById(‘textarea-’+wkId);
+if(!ta) return;
+state[‘summary_’+wkId]=ta.value;
+saveState(state);
+const note=document.getElementById(‘saved-note-’+wkId);
+if(note){ note.classList.add(‘show’); }
+const req=document.querySelector(`#sum-${wkId} .summary-required`);
+if(req){ req.textContent=‘✓ SAVED’; }
+updateOverallProgress();
+renderSidebarNav();
+}
+
+function refreshWeek(wk){
+const el=document.getElementById(‘wk-’+wk.id);
+if(!el) return;
+const phCls=roadmap.find(ph=>ph.weeks.includes(wk))?.cls||’’;
+const isOpen=el.classList.contains(‘open’);
+const {pct}=weekProgress(wk);
+const allDone=allTasksInWeekDone(wk);
+const hasSummary=(state[‘summary_’+wk.id]||’’).trim().length>20;
+
+// update progress bar
+const fill=el.querySelector(’.wh-prog-fill’);
+const pctEl=el.querySelector(’.wh-pct’);
+if(fill) fill.style.width=pct+’%’;
+if(pctEl) pctEl.textContent=pct+’%’;
+
+// update individual task states
+wk.days.forEach(d=>d.tasks.forEach(t=>{
+const items=el.querySelectorAll(’.task-item’);
+items.forEach(item=>{
+const onclick=item.getAttribute(‘onclick’)||’’;
+if(onclick.includes(`'${t.id}'`)){
+if(state[t.id]) item.classList.add(‘checked’);
+else item.classList.remove(‘checked’);
+}
+});
+}));
+
+// update summary unlock state
+const sumEl=document.getElementById(‘sum-’+wk.id);
+if(sumEl){
+if(allDone){
+sumEl.classList.add(‘summary-unlocked’);
+const lock=sumEl.querySelector(’.summary-lock’);
+if(lock) lock.textContent=‘📝’;
+}
+const req=sumEl.querySelector(’.summary-required’);
+if(req && hasSummary) req.textContent=‘✓ SAVED’;
+}
+}
+
+// ══════════════════════════════════════════════════════
+// SIDEBAR
+// ══════════════════════════════════════════════════════
+function renderSidebar(){
+const nav=document.getElementById(‘sidebar-nav’);
+nav.innerHTML=’’;
+roadmap.forEach(ph=>{
+const phDiv=document.createElement(‘div’);
+phDiv.className=‘nav-phase’;
+let html=`<div class="nav-phase-label">${ph.label} — ${ph.name}</div>`;
+ph.weeks.forEach(wk=>{
+const {pct,done,total}=weekProgress(wk);
+const hasSummary=(state[‘summary_’+wk.id]||’’).trim().length>20;
+const allDone=done===total&&hasSummary;
+html+=`<a class="nav-week ${allDone?'done':''}" href="#wk-${wk.id}"> <div class="nw-dot"></div> <span>${wk.label}: ${wk.title.substring(0,22)}${wk.title.length>22?'…':''}</span> <span class="nw-pct">${pct}%</span> </a>`;
+});
+phDiv.innerHTML=html;
+nav.appendChild(phDiv);
+});
+}
+function renderSidebarNav(){ renderSidebar(); }
+
+function updateOverallProgress(){
+const all=roadmap.flatMap(ph=>ph.weeks.flatMap(wk=>wk.days.flatMap(d=>d.tasks)));
+const done=all.filter(t=>state[t.id]).length;
+const total=all.length;
+const pct=Math.round(done/total*100);
+
+const bar=document.getElementById(‘overall-bar’);
+const pctEl=document.getElementById(‘overall-pct’);
+const countEl=document.getElementById(‘overall-count’);
+if(bar) bar.style.width=pct+’%’;
+if(pctEl) pctEl.textContent=pct+’%’;
+if(countEl) countEl.textContent=`${done} / ${total} tasks`;
+
+// check complete
+const allSummaries=roadmap.flatMap(ph=>ph.weeks.map(wk=>(state[‘summary_’+wk.id]||’’).trim().length>20));
+const allSumDone=allSummaries.every(Boolean);
+const banner=document.getElementById(‘complete-banner’);
+if(banner){
+if(done===total && allSumDone) banner.classList.add(‘show’);
+else banner.classList.remove(‘show’);
+}
+}
+
+// ══════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════
+// Default: open week 1 only, set before first render
+roadmap.forEach(ph=>ph.weeks.forEach((wk)=>{
+if(state[‘open_’+wk.id]===undefined){
+state[‘open_’+wk.id]= (wk.id===‘w1’) ? true : false;
+}
+}));
+saveState(state);
+renderAll();
+</script>
+
+</body>
+</html>
